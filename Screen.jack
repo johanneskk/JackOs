@@ -1,0 +1,88 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Screen.jack
+
+/**
+ * Graphic screen library.
+ */
+class Screen {
+	
+	static Array screen;
+	static Array powers_of_two;
+    /** Initializes the Screen. */
+    
+	/*Kakkosen potensseja*/
+	function void init() {                    
+		let powers_of_two = Array.new(16);
+		let powers_of_two[0] = 1;
+		let powers_of_two[1] = 2;
+		let powers_of_two[2] = 4;
+		let powers_of_two[3] = 8;
+		let powers_of_two[4] = 16;
+		let powers_of_two[5] = 32;
+		let powers_of_two[6] = 64;
+		let powers_of_two[7] = 128;
+		let powers_of_two[8] = 256;
+		let powers_of_two[9] = 512;
+		let powers_of_two[10] = 1024;
+		let powers_of_two[11] = 2048;
+		let powers_of_two[12] = 4096;
+		let powers_of_two[13] = 8192;
+		let powers_of_two[14] = 16384;
+		let powers_of_two[15] = (16384+16384);
+		let screen = 16384;
+		return;
+    }
+
+    /** Erases the whole screen. */
+    function void clearScreen() {
+		var int i;
+		let i = 0;
+		
+									
+		/*laitetaan kaikkiin näytön muistipaikkoihin arvoksi 0*/ 
+		
+		while(i< 8192 +1) {
+			let screen[i] = 0;   
+			let i = i+1;
+		}
+		
+		return;
+    }
+
+    /** Sets the color to be used in further draw commands
+     *  where white = false, black = true. */
+    function void setColor(boolean b) {
+		return;
+    }
+
+    /** Draws the (x, y) pixel. */
+	/*moodlen vinkkejä Math- ja Screen moduulien bittiperaatioihin  */
+    function void drawPixel(int x, int y) {
+		
+		var int address;
+		var int mask;
+		let address = (y*32) + (x/16);  					//lasketaan muistipaikka, josta halutun pikselin bitti löytyy
+		let mask = powers_of_two[(x & 15)]; 				// maskiin laitetaan 16 bittiä joista yksi on 1
+		let screen[address] = (screen[address] | mask);		 //laitetaan muistipaikan sisältö ja maski muistipaikkaan
+		return;
+		
+    }
+
+    /** Draws a line from (x1, y1) to (x2, y2). */
+    function void drawLine(int x1, int y1, int x2, int y2) {
+		return;
+    }
+
+    /** Draws a filled rectangle where the top left corner
+     *  is (x1, y1) and the bottom right corner is (x2, y2). */
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
+		return;
+    }
+
+    /** Draws a filled circle of radius r around (cx, cy). */
+    function void drawCircle(int cx, int cy, int r) {
+		return;
+    }
+}
