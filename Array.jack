@@ -6,6 +6,7 @@
 /**
  * Represents an array. Can be used to hold any type of object.
  */
+ 
 class Array {
 
   /** Constructs a new Array of the given size. */
@@ -15,8 +16,9 @@ class Array {
 		return Memory.alloc(size); 			/*Varataan muisti Memory-moduulin alloc-metodilla*/
     }										/*Palautetaan halutun kokoinen muistilohko.*/
 
+
     /** De-allocates the array and frees its space. */
-	/**Vapauttaa Arrayn varaaman muistin*/
+    /**Vapauttaa Arrayn varaaman muistin*/
     method void dispose() {
 		do Memory.deAlloc(this); 			/*Vapautetaan muisti Memory-moduulin deAlloc-metodilla*/
 		return;
