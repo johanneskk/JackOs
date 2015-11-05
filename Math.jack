@@ -1,0 +1,199 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Math.jack
+
+/**
+ * A basic math library.
+ */
+ 
+ 
+class Math {
+	
+	static Array powers_of_two;
+	
+    /** Initializes the library. */
+    function void init() { 
+	
+		/*Jack-kieli ei osaa laskea potensseja, joten luodaan niitä valmiiks powers_of_two Arrayhyn*/
+		
+		let powers_of_two = Array.new(16);
+		let powers_of_two[0] = 1;
+		let powers_of_two[1] = 2;
+		let powers_of_two[2] = 4;
+		let powers_of_two[3] = 8;
+		let powers_of_two[4] = 16;
+		let powers_of_two[5] = 32;
+		let powers_of_two[6] = 64;
+		let powers_of_two[7] = 128;
+		let powers_of_two[8] = 256;
+		let powers_of_two[9] = 512;
+		let powers_of_two[10] = 1024;
+		let powers_of_two[11] = 2048;
+		let powers_of_two[12] = 4096;
+		let powers_of_two[13] = 8192;
+		let powers_of_two[14] = 16384;
+		let powers_of_two[15] = (16384+16384);
+		
+		return;
+		
+    }
+	
+	
+	
+	/*tarkistaa onko x:n binäärimuodon j:s bitti 0 vai 1 ja palauttaa arvon*/
+	function int bit(int x, int j) {
+		var int power;
+		let power = powers_of_two[j];
+				
+		if((x & power) = 0 ) {
+				
+			return 0;
+		}else {
+			return 1;
+		}	
+	}
+	
+	
+
+    /** Returns the absolute value of x. */
+	/*palauttaa x:n itseisarvon*/
+	
+    function int abs(int x) {
+		if(x>0){
+			return x;
+		} else {
+			return (-x);
+		}
+    }
+
+    /** Returns the product of x and y. */
+	/**Toteuttaa kertolaskun*/
+	
+    function int multiply(int x, int y) {
+		var int shiftedX;
+		var int sum;
+		var int j;
+		let sum = 0;
+		let shiftedX = x;
+		let j = 0;
+		
+		/*Käytetty harkkatyön speksistä löytyvää algoritmiä 12.1*/
+		while (j<16) {  /*16 bittiset luvut*/
+		
+			if (Math.bit(y,j) = 1) {          /*jos y:n j:s bitti on 1*/
+				let sum = sum + shiftedX;     /*lisää summaan kyseinen shiftedX*/
+			}
+			let shiftedX = shiftedX + shiftedX; /*shiftX kaksinkertaistuu joka kierrolla*/
+			let j = j+1;
+		}		
+		return sum;
+    }
+
+    /** Returns the integer part of x/y. */
+	/*Palauttaa jakolaskun kokonaislukuosan*/
+    function int divide(int x, int y) {
+		
+		var int q;
+		var int integer;
+		var int x_is_pos;
+		var int y_is_pos;
+		
+		if(y = 0) {		/*nollalla jako*/
+			do Sys.error(3); 
+		}		
+		
+		/*Otetaan lukujen merkit talteen ennen itseisarvon ottamista*/
+		
+		if(x > 0) {
+			let x_is_pos = 1;
+		} else {
+			let x_is_pos = 0;
+		}
+		if(y > 0 ) {
+			let y_is_pos = 1;
+		} else {
+			let y_is_pos = 0;
+		}		
+		
+		let x = Math.abs(x);
+		let y = Math.abs(y);		
+				
+		/*Jos jakaja isompi, palautetaan 0*/		
+				
+		if(y > x) { 
+			return 0;
+		}		
+		
+		
+		/*Algoritmi 12.2 harkkatyön speksistä.*/
+		let q = Math.divide(x, y+y);
+		
+		if(x-(2*q*y) < y) {
+			let integer = q+q;
+		} else {
+			let integer = q+q+1;
+		}
+		
+		/*Jos molemmat negatiivisiä tai positiivisiä, palautetaan positiivinen luku*/
+		if(y_is_pos = x_is_pos) {
+			return integer;
+			
+		/*Jos toinen negatiivinen palautetaan -integer*/
+		} else {
+			return -integer;
+		}
+	}
+
+	
+	
+    /** Returns the integer part of the square root of x. */
+	/*Palauttaa x:n neliöjuuren kokonaislukuosan.*/
+    function int sqrt(int x) {
+	
+		var int sqrt, i;
+		var int temp, temp2;
+		
+		let i = 7; /* 16/2 - 1*/
+		let sqrt = 0;
+		
+		
+		/*ALgoritmi 12.3 harkkatyön speksistä*/
+		/*Muutettu if logiikkaa sivun 221 esimerkin mukaisesti*/
+		
+		while(i > (-1)) {
+		
+			let temp = powers_of_two[i] + sqrt;
+			let temp2 = temp * temp; 
+			
+			if((temp2 > 0) & ((temp2 < x) | (temp2 = x) )) {
+				let sqrt = temp;
+			}
+			let i = i-1;
+		}
+			
+		return sqrt;
+    }
+
+    /** Returns the greater number. */
+	/*Vertailee numeroita ja palauttaa suuremman*/
+    function int max(int a, int b) {
+		
+		if( a > b) {
+			return a;
+		} else {
+			return b;
+		}		
+    }
+
+    /** Returns the smaller number. */
+	/*Vertailee numeroita ja palauttaa pienemmän*/
+    function int min(int a, int b) {
+	
+		if( a > b) {
+			return b;
+		} else {
+			return a;
+		}
+    }
+}
