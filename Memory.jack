@@ -1,0 +1,71 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * Memory operations library.
+ */ 
+class Memory {
+
+	static Array freeList; 						/*listan freeList indeksi 0 kuvaa muistilohkon pituutta*/
+												/*indeksi 1 kuvaa pointteria seuraavaan muistilohkoon*/
+	static Array memory;
+	static int heapBase;
+	
+
+    /** Initializes memory parameters. */
+    function void init() {
+		
+		let heapBase = 2048;	 				/*Muisti varataan välillä 2048-16384*/
+		let freeList = heapBase; 
+		/*let freeList[0] = 16383 - 2048;	    /*Muistilohkon pituus*/
+		/*let freeList[1] = 0; 					/*seuraava on alussa null eli 0 */
+		
+		let memory = 0; 						/*Array "memory" on array-esitys kaikista musitipaikoista*/
+		return;
+    }
+
+    
+	/*Palauttaa parametrina saadussa muistipaikassa olevan arvon*/
+	
+    function int peek(int address) {
+	
+		return memory[address];	 
+	}
+
+    
+	/*Asetetaan parametrinä saatu arvo parametrinä saatuun muistiosoitteeseen*/
+    function void poke(int address, int value) {
+	
+		let memory[address] = value; 			/*Asetetaan parametrinä saatu arvo parametrinä saatuun muistiosoitteeseen.*/
+		
+		return;
+    }
+	
+
+    
+	 
+	/*Alloc on tehty kurssikirjan helpomman esimerkin 12.6a mukaan*/
+	/*Tämä muistinvaraus ei osaa hyödyntää vapautettua muistia*/
+    function int alloc(int size) {
+		
+		var Array pointer; 							/*luodaan osoittaja vapaan muistialueen alkuun*/
+		
+		let pointer = freeList; 					/*laitetaan osoittaja osoittamaan ensimmäiseen vapaaseen muistipaikkaan*/
+		
+		let freeList = freeList + size ;			/*freeList osoittaa seuraavaan vapaaseen muistipaikkaan*/
+		
+		return pointer;							    /*palautetaan osoitaja*/
+		
+	
+	
+    }
+
+    /** De-allocates the given object and frees its space. */
+    function void deAlloc(int object) {
+		return;
+    }    
+}
+
+
