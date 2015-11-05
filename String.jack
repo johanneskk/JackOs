@@ -1,0 +1,118 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/String.jack
+
+/**
+ * Represents a String object. Implements the String type.
+ */
+class String {
+	
+	field int len;
+	field Array string;
+	field int maxLen;
+	
+    /** Constructs a new empty String with a maximum length of maxLength. */
+    constructor String new(int maxLength) {
+		
+		
+		if (maxLength < 0) {
+			do Sys.error(14); 				/*virhekoodi 14 = "maximum length must be non-negative" */
+		} 
+		if (maxLength = 0) { 				/*jos maksimipituus 0 asetetaan pituudeksi 1*/
+			let maxLen = 1;
+		}
+		else {
+			let maxLen = maxLength;
+		}
+		let len = 0;		
+		let string = Array.new(maxLen); 	/*varataan string arraylle maksimipituuden verran muistia.*/
+		
+		return this;
+		
+    }
+
+    /** De-allocates the string and frees its space. */
+    method void dispose() {
+	
+		do Array.dispose(string); 	/*vapautetaan muisti */
+		return;
+    }
+
+    /** Returns the current length of this String. */
+    method int length() {
+		
+		return len; 				/*muuttujan len arvoa lisätään jokaisen appendin yhteydessä, joten riittää*/
+    }								/*että palautetaan lenin arvo*/
+
+	
+	
+    /** Returns the character at location j. */
+    method char charAt(int j) {
+		
+		return string[j]; 			/*palautetaan listan j:s jäsen*/
+	
+    }
+
+    /** Sets the j'th character of this string to be c. */
+    method void setCharAt(int j, char c) {
+	
+		let string[j] = c; 			/*asetetaan listan j:deksi jäseneksi arvo c*/
+		return;
+    }
+
+    /** Appends the character c to the end of this String.
+     *  Returns this string as the return value. */
+    method String appendChar(char c) {
+	
+		if (~(len < maxLen)) {  	/*jos listan pituus suurempi tai yhtäsuuri kuin maksimipituus*/
+			do Sys.error(17); 		/*Virhekoodi - "String is full"*/
+		}
+		
+		let string[len] = c; 		/*Koska listan indeksi alkaa 0:sta voidaan olettaa, että len osoittaa tyhjään*/
+		let len = len + 1 ; 		/*muistipaikkaan. Asetetaan indeksiin len uusi char ja kasvatetaan pituutta yhdellä.*/
+		
+		return this;
+			
+    }
+
+	
+    /** Erases the last character from this String. */
+    method void eraseLastChar() {
+		
+		if(len = 0){
+		
+			do Sys.error(18); 		/*Virhekoodi "String is Empty"*/
+		}
+		
+		let len = len - 1; 			/*Koska len-muuttujaa käytetään append-metodissa voidaan "poistaa" viimeinen  */
+		return;						/*alkio vähentämällä pituuden arvoa yhdellä*/
+		
+    }
+
+    /** Returns the integer value of this String until the first non
+     *  numeric character. */
+    method int intValue() {
+		return 1;
+	}
+
+    /** Sets this String to hold a representation of the given number. */
+    method void setInt(int number) {
+		return;
+    }
+
+    /** Returns the new line character. */
+    function char newLine() { 			/*palauttaa newlinen ascii koodin*/
+		return 128;
+	}
+
+    /** Returns the backspace character. */
+    function char backSpace() { 		/*palauttaa backspacen ascii koodin*/
+		return 129;
+    }
+
+    /** Returns the double quote (") character. */
+    function char doubleQuote() { 		/*palauttaa doublequoten ascii koodin*/
+		return 34;
+    }
+}
